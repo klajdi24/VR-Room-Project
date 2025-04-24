@@ -1,52 +1,72 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
+public enum PieceType
+{
+    Pawn,
+    Rook,
+    Knight,
+    Bishop,
+    Queen,
+    King
+}
+
+[RequireComponent(typeof(XRGrabInteractable))]
 public class ChessPiece : MonoBehaviour
 {
-    public PieceType pieceType;  // Store the piece type (e.g., Pawn, Queen)
-    public bool isWhitePiece;    // Is this piece white or black?
+    public PieceType pieceType;
+    public bool isWhite;
 
-    private ChessBoard chessBoard;
+    private Vector3 originalPosition;
+    private XRGrabInteractable grabInteractable;
 
-    private void Start()
+    private void Awake()
     {
-        chessBoard = FindObjectOfType<ChessBoard>(); // Get the reference to the Chessboard
+        originalPosition = transform.position;
+        grabInteractable = GetComponent<XRGrabInteractable>();
+
+        // Hook into grab/drop events
+        grabInteractable.selectExited.AddListener(OnReleased);
     }
 
-    // Called when the piece is selected (to show valid moves)
+    private void OnDestroy()
+    {
+        grabInteractable.selectExited.RemoveListener(OnReleased);
+    }
+
+    private void OnReleased(SelectExitEventArgs args)
+    {
+        Debug.Log("Dropped: " + name);
+
+        // You could snap the piece to a grid here if needed
+        // Or validate the move after drop
+    }
+
+    public bool IsMoveValid(Vector3 targetPosition)
+    {
+        float distance = Vector3.Distance(transform.position, targetPosition);
+        return distance < 3.0f;
+    }
+
     public void OnPieceSelected()
     {
-        Debug.Log(pieceType + " selected!");
-        chessBoard.ShowAvailableMoves(this); // Show valid moves based on piece type
+        Debug.Log("Piece selected: " + name);
     }
 
-    // Validates if a given move is valid based on the piece type
-    public bool IsMoveValid(Vector3 destination)
+    public void MoveTo(Vector3 newPosition)
     {
-        switch (pieceType)
+        if (IsMoveValid(newPosition))
         {
-            case PieceType.Pawn:
-                return ValidatePawnMove(destination);
-            case PieceType.Rook:
-                return ValidateRookMove(destination);
-            case PieceType.Knight:
-                return ValidateKnightMove(destination);
-            case PieceType.Bishop:
-                return ValidateBishopMove(destination);
-            case PieceType.Queen:
-                return ValidateQueenMove(destination);
-            case PieceType.King:
-                return ValidateKingMove(destination);
-            default:
-                return false;
+            transform.position = newPosition;
+        }
+        else
+        {
+            Debug.Log("Invalid move!");
         }
     }
 
-    // Example: Pawn can only move one square forward (basic logic)
-    private bool ValidatePawnMove(Vector3 destination)
+    public void ResetPosition()
     {
-        // Logic for validating pawn movement (simplified)
-        return true;
+        transform.position = originalPosition;
     }
-
-    // Other piece movement validation methods (Rook, Knight, etc.)
 }

@@ -12,21 +12,18 @@ public enum PieceType
 }
 
 [RequireComponent(typeof(XRGrabInteractable))]
+[RequireComponent(typeof(Rigidbody))]
 public class ChessPiece : MonoBehaviour
 {
     public PieceType pieceType;
     public bool isWhite;
 
     private Vector3 originalPosition;
+    private bool hasBeenPlaced = false;
 
     private void Start()
     {
         originalPosition = transform.position;
-    }
-
-    public void OnPieceSelected()
-    {
-        Debug.Log("Piece selected: " + name);
     }
 
     public void ResetPosition()
@@ -36,20 +33,31 @@ public class ChessPiece : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!MoveTracker.moveMade && other.CompareTag("Board"))
+        if (hasBeenPlaced) return;
+
+        if (other.CompareTag("WinningSquare") || other.CompareTag("Board"))
         {
             MoveTracker moveTracker = FindObjectOfType<MoveTracker>();
-            if (moveTracker != null)
+            if (moveTracker != null && !MoveTracker.moveMade)
             {
-                moveTracker.RegisterMove();
+                // Snap to exact center of square
+                transform.position = other.transform.position;
+                transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); // keep upright
 
-                // Optional: Snap to nearest square (add snapping logic here if you want)
-                // transform.position = SnapToGrid(transform.position);
+                // Freeze movement
+                Rigidbody rb = GetComponent<Rigidbody>();
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.constraints = RigidbodyConstraints.FreezeAll;
 
-                // Disable further interaction
+                // Disable grabbing
                 GetComponent<XRGrabInteractable>().enabled = false;
 
-                Debug.Log("Piece placed on board. Move registered.");
+                // Register the move with position
+                moveTracker.RegisterMove(transform.position);
+
+                hasBeenPlaced = true;
+                Debug.Log("Piece placed and move registered.");
             }
         }
     }

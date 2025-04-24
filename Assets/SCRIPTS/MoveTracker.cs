@@ -1,16 +1,29 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MoveTracker : MonoBehaviour
 {
     public static bool moveMade = false;
 
-    public void RegisterMove()
+    public GameObject winText;
+    public GameObject wrongText;
+
+    public Transform winningSquare;
+
+    // This method takes the position of the placed piece
+    public void RegisterMove(Vector3 piecePosition)
     {
-        if (!moveMade)
+        moveMade = true;
+
+        float distanceToWin = Vector3.Distance(piecePosition, winningSquare.position);
+
+        if (distanceToWin < 0.2f)
         {
-            moveMade = true;
-            Debug.Log("You made the winning move!");
-            // You can trigger win UI or animations here.
+            winText.SetActive(true);
+        }
+        else
+        {
+            wrongText.SetActive(true);
         }
     }
 }

@@ -1,32 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro; // Use this for TextMeshProUGUI
+using TMPro; // Required for TextMeshProUGUI
 
 public class ChessMoveValidator : MonoBehaviour
 {
-    public string finalMove = "e7e8Q"; // Example: pawn to promotion
-    public Canvas messageCanvas;  // Reference to the Canvas that holds the message UI
-    public TextMeshProUGUI messageText;  // Reference to the TextMeshProUGUI component for messages
+    public string finalMove = "e7e8Q"; // Example: the final move to win
+    public ChessGameManager gameManager; // Reference to the ChessGameManager
 
     // Call this method when the player makes a move
     public void OnPlayerMove(string move)
     {
         if (move == finalMove)
         {
-            ShowMessage("You won!");
-            // Additional victory logic here
+            gameManager.ShowMessage("You won!", true); // Show message if it's the final move
         }
         else
         {
-            ShowMessage("Not the final move. Try again or exit.");
+            gameManager.ShowMessage("Not the final move. Try again or exit.", true); // Show a different message if not the final move
         }
-    }
-
-    // Show the message
-    void ShowMessage(string text)
-    {
-        messageCanvas.gameObject.SetActive(true);  // Activate the canvas
-        messageText.text = text;  // Update the TextMeshProUGUI text
     }
 }

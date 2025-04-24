@@ -1,26 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
 public class ChessTriggerZone : MonoBehaviour
 {
-    public Canvas messageCanvas;
+    public ChessGameManager gameManager; // Reference to the ChessGameManager
+    public string finalMoveMessage = "Make the final move to win!"; // Message shown when close to the chessboard
 
-    void OnTriggerEnter(Collider other)
+    // This method is called when the player enters the trigger zone
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player")) // Check if the object is tagged as "Player"
         {
-            messageCanvas.gameObject.SetActive(true);
-            messageCanvas.GetComponentInChildren<Text>().text = "Play the final move to win the game.";
+            Debug.Log("Player entered the trigger zone!");
+            gameManager.ShowMessage(finalMoveMessage, true); // Show the message with options
         }
     }
 
-    void OnTriggerExit(Collider other)
+    // This method is called when the player exits the trigger zone
+    private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player")) // Check if the object is tagged as "Player"
         {
-            messageCanvas.gameObject.SetActive(false);
+            Debug.Log("Player exited the trigger zone!");
+            gameManager.HideMessage(); // Hide the message when the player leaves the zone
         }
     }
 }
-

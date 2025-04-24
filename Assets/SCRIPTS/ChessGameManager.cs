@@ -1,36 +1,27 @@
 using UnityEngine;
-using TMPro;  // Use this namespace for TextMeshPro components
+using UnityEngine.UI; // Make sure you have this for UI elements (Text, Buttons, etc.)
+using TMPro; // For TextMeshPro
 
 public class ChessGameManager : MonoBehaviour
 {
-    // The final move for winning the game, e.g., "e7e8Q" for a pawn promoting to a queen
-    public string finalMove = "e7e8Q"; 
-    
-    // Canvas that will show the message
-    public Canvas messageCanvas;  
-    
-    // Reference to the TextMeshProUGUI for showing the message
-    public TextMeshProUGUI messageText;  
+    public Canvas messageCanvas; // Reference to the Canvas (UI element that holds the message)
+    public TextMeshProUGUI messageText; // Reference to the TextMeshProUGUI text for the message
+    public Button tryAgainButton; // Reference to the Try Again Button
+    public Button exitButton; // Reference to the Exit Button
 
-    // This function is called when the player makes a move
-    public void OnPlayerMove(string move)
+    // Show a message and optionally display buttons
+    public void ShowMessage(string message, bool showButtons = false)
     {
-        if (move == finalMove)
-        {
-            // If the player made the final move, show the "You won!" message
-            ShowMessage("You won!");
-        }
-        else
-        {
-            // If the move isn't the final one, ask the player to try again
-            ShowMessage("Not the final move. Try again or exit.");
-        }
+        messageCanvas.gameObject.SetActive(true); // Show the Canvas
+        messageText.text = message; // Update the message text
+
+        tryAgainButton.gameObject.SetActive(showButtons); // Show/hide the Try Again button
+        exitButton.gameObject.SetActive(showButtons); // Show/hide the Exit button
     }
 
-    // This function shows a message on the canvas
-    void ShowMessage(string text)
+    // Hide the message and buttons
+    public void HideMessage()
     {
-        messageCanvas.gameObject.SetActive(true);  // Activate the message canvas
-        messageText.text = text;  // Update the message text with the new string
+        messageCanvas.gameObject.SetActive(false); // Hide the entire UI
     }
 }

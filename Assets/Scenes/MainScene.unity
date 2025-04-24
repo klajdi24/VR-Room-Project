@@ -344,9 +344,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b20334b3f0894381a550ca701aab41c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  finalMove: e7e8Q
   messageCanvas: {fileID: 1360747724}
   messageText: {fileID: 1054878554}
+  tryAgainButton: {fileID: 1450708881}
+  exitButton: {fileID: 703981248}
 --- !u!4 &432746620
 Transform:
   m_ObjectHideFlags: 0
@@ -418,6 +419,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Complete XR Origin Set Up
       objectReference: {fileID: 0}
+    - target: {fileID: 7696548424635294048, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014170783705847997, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 9014170783809206330, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_BackGroundColor.a
       value: 1
@@ -433,6 +442,10 @@ PrefabInstance:
     - target: {fileID: 9014170783809206330, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_BackGroundColor.r
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014170785475729474, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3413,7 +3426,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62905c3ca27454bf0888c93e62692049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  messageCanvas: {fileID: 1360747724}
+  gameManager: {fileID: 432746619}
+  finalMoveMessage: Make the final move to win!
 --- !u!65 &1465745475
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3445,7 +3459,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -22.978, y: 0.857, z: 12.892}
-  m_LocalScale: {x: 1.7237079, y: 1.9546, z: 1.9784461}
+  m_LocalScale: {x: 1.7237079, y: 1.316638, z: 1.9784461}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

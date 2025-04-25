@@ -1,29 +1,26 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MoveTracker : MonoBehaviour
 {
-    public static bool moveMade = false;
-
+    public Transform winningSquare;
     public GameObject winText;
     public GameObject wrongText;
 
-    public Transform winningSquare;
-
-    // This method takes the position of the placed piece
-    public void RegisterMove(Vector3 piecePosition)
+    public void ShowWin()
     {
-        moveMade = true;
+        if (winText != null) winText.SetActive(true);
+        if (wrongText != null) wrongText.SetActive(false);
+    }
 
-        float distanceToWin = Vector3.Distance(piecePosition, winningSquare.position);
+    public void ShowWrong()
+    {
+        if (wrongText != null) wrongText.SetActive(true);
+        if (winText != null) winText.SetActive(false);
+    }
 
-        if (distanceToWin < 0.2f)
-        {
-            winText.SetActive(true);
-        }
-        else
-        {
-            wrongText.SetActive(true);
-        }
+    public void HideAll()
+    {
+        if (winText != null) winText.SetActive(false);
+        if (wrongText != null) wrongText.SetActive(false);
     }
 }

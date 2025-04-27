@@ -10,14 +10,13 @@ public class ChessPiece : MonoBehaviour
 {
     public PieceType pieceType;
     public bool isWhite;
-    public Transform snapAnchor; // Assign in Inspector (child at base of queen)
+    public Transform snapAnchor; // Assign inside the Queen!
 
     private XRGrabInteractable grab;
     private Rigidbody rb;
     private Vector3 originalPosition;
     private Quaternion originalRotation;
 
-    private bool hasSnapped = false;
     private bool hasWon = false;
 
     void Start()
@@ -33,71 +32,81 @@ public class ChessPiece : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (hasSnapped || hasWon) return;
+        if (hasWon) return;
 
         if (other.CompareTag("WinningSquare") && pieceType == PieceType.Queen && isWhite)
         {
             Debug.Log("👑 Queen entered winning square!");
 
-            // Destroy the black pawn
+            // Destroy black pawn
             GameObject blackPawn = GameObject.FindGameObjectWithTag("BlackPawn");
             if (blackPawn != null)
             {
                 Destroy(blackPawn);
             }
 
-            // Freeze physics before snapping
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            rb.constraints = RigidbodyConstraints.FreezeAll;
-
-            // Snap into place
-            MoveTracker tracker = Object.FindObjectOfType<MoveTracker>();
-            if (tracker != null)
+            // Detach queen from hand if being held
+            if (grab.isSelected)
             {
-                if (snapAnchor != null)
-                {
-                    Vector3 offset = transform.position - snapAnchor.position;
-                    transform.position = tracker.winningSquare.position - offset;
-                }
-                else
-                {
-                    transform.position = tracker.winningSquare.position;
-                }
+                grab.interactionManager.SelectExit(grab.interactorsSelecting[0], grab);
+            }
 
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-                grab.enabled = false;
-
-                hasSnapped = true;
-                hasWon = true; // ✅ Moved here so OnReleased sees it
+            // Snap Queen perfectly to WinningAnchor
+            MoveTracker tracker = FindObjectOfType<MoveTracker>();
+            if (tracker != null && tracker.winningAnchor != null)
+            {
+                transform.position = tracker.winningAnchor.position;
+                transform.rotation = tracker.winningAnchor.rotation;
 
                 tracker.ShowWin();
-                Debug.Log("✅ Win condition met — snapping into place!");
             }
+            else
+            {
+                Debug.LogError("❌ MoveTracker or WinningAnchor missing!");
+            }
+
+            // Freeze queen in place
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.isKinematic = true;
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+
+            // Disable grabbing
+            grab.enabled = false;
+
+            // Destroy ChessSnapper if it exists
+            ChessSnapper snapper = GetComponent<ChessSnapper>();
+            if (snapper != null)
+            {
+                Destroy(snapper);
+            }
+
+            hasWon = true;
+            Debug.Log("✅ Win condition met — snapped queen perfectly!");
         }
     }
 
     private void OnReleased(SelectExitEventArgs args)
     {
-        if (hasWon || hasSnapped)
+        if (hasWon)
         {
-            Debug.Log("✅ Released after win — staying in place.");
+            Debug.Log("✅ Released after win — no reset needed.");
             return;
         }
 
         Debug.Log("❌ Invalid move — snapping back.");
         StartCoroutine(ResetAfterPhysics());
-
-        MoveTracker tracker = Object.FindObjectOfType<MoveTracker>();
-        if (tracker != null)
-        {
-            tracker.ShowWrong();
-        }
     }
 
     private IEnumerator ResetAfterPhysics()
     {
         yield return new WaitForFixedUpdate();
+
+        if (hasWon)
+        {
+            Debug.Log("✅ Already won — skip reset.");
+            yield break;
+        }
 
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;

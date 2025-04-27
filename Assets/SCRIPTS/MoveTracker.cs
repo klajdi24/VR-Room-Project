@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class MoveTracker : MonoBehaviour
 {
-    public Transform winningSquare;
+    public Transform winningSquare; // Existing reference for trigger zone
+    public Transform winningAnchor; // NEW reference for snapping queen
+
     public GameObject winText;
     public GameObject wrongText;
 

@@ -38,27 +38,11 @@ public class ChairInteraction : MonoBehaviour
     GameObject player = GameObject.FindWithTag("Player");
     if (player != null && seatPosition != null)
     {
-        Vector3 seatPos = seatPosition.position;
-        Quaternion seatRot = seatPosition.rotation;
+        player.transform.position = seatPosition.position;
+        player.transform.rotation = seatPosition.rotation;
 
-        // Find the XR Rig's Camera (head)
-        Camera headCamera = Camera.main; // Make sure your VR Camera is tagged as "MainCamera"
-        if (headCamera != null)
-        {
-            Vector3 headOffset = headCamera.transform.position - player.transform.position;
-            headOffset.y = 0f; // Ignore vertical height offset
-
-            // Move player so that the head ends up at seat position
-            player.transform.position = seatPos - headOffset;
-            player.transform.rotation = seatRot;
-
-            Debug.Log("✅ Player seated properly (head aligned)!");
-        }
-        else
-        {
-            Debug.LogWarning("⚠️ No Main Camera found for player head offset!");
-        }
-
+        Debug.Log("✅ Player rig teleported exactly to seat position (no head offset correction)!");
+        
         // Start Typing Effect
         TypingEffect typer = FindObjectOfType<TypingEffect>();
         if (typer != null)
@@ -66,5 +50,9 @@ public class ChairInteraction : MonoBehaviour
             typer.StartTyping();
         }
     }
-}}
+}
+
+
+
+}
 

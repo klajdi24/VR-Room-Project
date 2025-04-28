@@ -14,9 +14,16 @@ public class TypingEffect : MonoBehaviour
     }
 
     public void StartTyping()
-    {
-        StartCoroutine(TypeText());
-    }
+{
+    StartCoroutine(DelayedTypeText());
+}
+
+private IEnumerator DelayedTypeText()
+{
+    yield return new WaitForSeconds(2f); // ⏳ Wait 2 seconds first
+    StartCoroutine(TypeText()); // ➡️ Then start the typing animation
+}
+
 
     IEnumerator TypeText()
     {

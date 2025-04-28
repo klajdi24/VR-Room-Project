@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -94,9 +94,14 @@ public class ChessPiece : MonoBehaviour
             return;
         }
 
-        Debug.Log("❌ Invalid move — snapping back.");
-        StartCoroutine(ResetAfterPhysics());
+          MoveTracker tracker = FindObjectOfType<MoveTracker>();
+    if (tracker != null)
+    {
+        tracker.ShowWrong();
     }
+
+    StartCoroutine(ResetAfterPhysics());
+}
 
     private IEnumerator ResetAfterPhysics()
     {

@@ -36,6 +36,7 @@ public class ChairInteraction : MonoBehaviour
     private void OnSelect(SelectEnterEventArgs args)
 {
     GameObject player = GameObject.FindWithTag("Player");
+    
     if (player != null && seatPosition != null)
     {
         player.transform.position = seatPosition.position;

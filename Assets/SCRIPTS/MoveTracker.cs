@@ -10,8 +10,9 @@ public class MoveTracker : MonoBehaviour
     public GameObject wrongText;
     public GameObject initialText;
 
-    public ParticleSystem winParticles; // ✅ Add this
-    public AudioSource winSound; // ✅ Add this
+    public ParticleSystem winParticles;
+    public AudioSource winSound;
+    public AudioSource wrongSound; // ✅ New!
 
     private Coroutine wrongCoroutine;
 
@@ -26,13 +27,13 @@ public class MoveTracker : MonoBehaviour
 
         if (winParticles != null)
         {
-            winParticles.Play(); // ✅ Play particle effect
+            winParticles.Play();
             StartCoroutine(StopParticlesAfterDelay());
         }
 
         if (winSound != null)
         {
-            winSound.Play(); // ✅ Play winning sound
+            winSound.Play();
         }
     }
 
@@ -53,6 +54,11 @@ public class MoveTracker : MonoBehaviour
         HideAll();
         if (wrongText != null) wrongText.SetActive(true);
         if (initialText != null) initialText.SetActive(false);
+
+        if (wrongSound != null)
+        {
+            wrongSound.Play(); // ✅ Play wrong sound here
+        }
 
         wrongCoroutine = StartCoroutine(HideWrongAfterDelay());
     }

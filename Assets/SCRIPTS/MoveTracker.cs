@@ -3,12 +3,15 @@ using System.Collections;
 
 public class MoveTracker : MonoBehaviour
 {
-    public Transform winningSquare; // Existing
-    public Transform winningAnchor; // Existing
+    public Transform winningSquare;
+    public Transform winningAnchor;
 
     public GameObject winText;
     public GameObject wrongText;
-    public GameObject initialText; // 👈 Add this (assign "Make the move" text here!)
+    public GameObject initialText;
+
+    public ParticleSystem winParticles; // ✅ Add this
+    public AudioSource winSound; // ✅ Add this
 
     private Coroutine wrongCoroutine;
 
@@ -19,7 +22,27 @@ public class MoveTracker : MonoBehaviour
 
         HideAll();
         if (winText != null) winText.SetActive(true);
-        if (initialText != null) initialText.SetActive(false); // Hide initial text when winning
+        if (initialText != null) initialText.SetActive(false);
+
+        if (winParticles != null)
+        {
+            winParticles.Play(); // ✅ Play particle effect
+            StartCoroutine(StopParticlesAfterDelay());
+        }
+
+        if (winSound != null)
+        {
+            winSound.Play(); // ✅ Play winning sound
+        }
+    }
+
+    private IEnumerator StopParticlesAfterDelay()
+    {
+        yield return new WaitForSeconds(5f);
+        if (winParticles != null)
+        {
+            winParticles.Stop();
+        }
     }
 
     public void ShowWrong()

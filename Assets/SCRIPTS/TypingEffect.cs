@@ -5,7 +5,7 @@ using UnityEngine;
 public class TypingEffect : MonoBehaviour
 {
     public TextMeshProUGUI textComponent;
-    public string fullText = "Welcome to your computer!";
+    public string fullText = "Welcome to your computer! Type Password";
     public float typingSpeed = 0.05f;
 
     private void Start()

@@ -4904,6 +4904,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -1246822234137420708, guid: 5ad895038a96e4e53a1e9bbe7cc623a2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1054440672}
+    - targetCorrespondingSourceObject: {fileID: -1246822234137420708, guid: 5ad895038a96e4e53a1e9bbe7cc623a2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1054440674}
     - targetCorrespondingSourceObject: {fileID: -5102069715468649827, guid: 5ad895038a96e4e53a1e9bbe7cc623a2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 529163770}
@@ -5816,11 +5819,32 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!65 &1054440674
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054440670}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.053393096, y: 0.042682204, z: 0.010601661}
+  m_Center: {x: 0.026189722, y: 0.120021135, z: -0.041271646}
 --- !u!1 &1054878553
 GameObject:
   m_ObjectHideFlags: 0
@@ -12203,7 +12227,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0.7395666, g: 0.7735849, b: 0.0693307, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}

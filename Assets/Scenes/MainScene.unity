@@ -7791,7 +7791,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   hoverColor: {r: 0.015686274, g: 0.5416237, b: 1, a: 1}
   wallRendererToChange: {fileID: 1228134711}
-  newWallMaterial: {fileID: 2100000, guid: ae54b43ea71a24f5dbac52aee8529679, type: 2}
+  newWallMaterial: {fileID: 2100000, guid: b54bf791abf4a4597b8e15c081a0edcd, type: 2}
 --- !u!114 &1184467211
 MonoBehaviour:
   m_ObjectHideFlags: 0

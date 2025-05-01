@@ -4,16 +4,18 @@ using UnityEngine.XR.Interaction.Toolkit;
 [RequireComponent(typeof(XRGrabInteractable))]
 public class ObjectInteractionColor : MonoBehaviour
 {
-    public Renderer objectRenderer;          // The gem’s renderer
+    public Renderer objectRenderer;
     public Color defaultColor = Color.white;
     public Color hoverColor = Color.yellow;
 
-    public Renderer wallRendererToChange;    // Wall to change (e.g., "cuarto")
-    public Material newWallMaterial;         // Material to apply when toggled
+    public Renderer wallRendererToChange;
+    public Material newWallMaterial;
 
-    private Material originalWallMaterial;   // To store the original wall material
-    private bool isToggled = false;          // Tracks toggle state
+    private Material originalWallMaterial;
+    private bool isToggled = false;
     private XRGrabInteractable interactable;
+
+    public AudioSource ufoAudioSource; // 🔊 UFO sound source
 
     void Awake()
     {
@@ -27,7 +29,7 @@ public class ObjectInteractionColor : MonoBehaviour
 
         interactable.hoverEntered.AddListener(args => OnHoverEnter());
         interactable.hoverExited.AddListener(args => OnHoverExit());
-        interactable.selectEntered.AddListener(args => OnSelect(args)); // ✅ Fix here
+        interactable.selectEntered.AddListener(args => OnSelect(args));
     }
 
     private void OnHoverEnter()
@@ -51,12 +53,18 @@ public class ObjectInteractionColor : MonoBehaviour
         if (!isToggled)
         {
             wallRendererToChange.material = newWallMaterial;
-            Debug.Log("Wall changed to new material.");
+            Debug.Log("Wall changed to galaxy material.");
+
+            if (ufoAudioSource && !ufoAudioSource.isPlaying)
+                ufoAudioSource.Play();
         }
         else
         {
             wallRendererToChange.material = originalWallMaterial;
             Debug.Log("Wall reverted to original material.");
+
+            if (ufoAudioSource && ufoAudioSource.isPlaying)
+                ufoAudioSource.Stop();
         }
 
         isToggled = !isToggled;

@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class TypeEffect : MonoBehaviour
 {
-    public TextMeshProUGUI tmpText; // For Canvas UI
-    public TextMeshPro tmpText3D;   // For 3D world text (optional)
+    public TextMeshProUGUI tmpText;
+    public TextMeshPro tmpText3D;
     [TextArea] public string fullText;
     public float typingSpeed = 0.05f;
 
+    public AudioClip typingSound; // 🎵 Typing sound
+    private AudioSource audioSource;
+
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>(); // 🎧 Get AudioSource
+
         if (tmpText != null)
             StartCoroutine(TypeText(tmpText));
         else if (tmpText3D != null)
@@ -23,6 +28,10 @@ public class TypeEffect : MonoBehaviour
         foreach (char letter in fullText)
         {
             textComponent.text += letter;
+
+            if (typingSound && audioSource)
+                audioSource.PlayOneShot(typingSound); // 🔊 Play sound per letter
+
             yield return new WaitForSeconds(typingSpeed);
         }
     }
@@ -33,6 +42,10 @@ public class TypeEffect : MonoBehaviour
         foreach (char letter in fullText)
         {
             textComponent.text += letter;
+
+            if (typingSound && audioSource)
+                audioSource.PlayOneShot(typingSound);
+
             yield return new WaitForSeconds(typingSpeed);
         }
     }

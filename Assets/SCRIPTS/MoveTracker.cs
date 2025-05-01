@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class MoveTracker : MonoBehaviour
 {
@@ -8,72 +7,99 @@ public class MoveTracker : MonoBehaviour
 
     public GameObject winText;
     public GameObject wrongText;
-    public GameObject initialText;
+    public GameObject initialText;       // INTERACT WITH ME
+    public GameObject finalMoveText3D;   // MAKE THE FINAL MOVE
 
     public ParticleSystem winParticles;
-    public AudioSource winSound;
-    public AudioSource wrongSound; // ✅ New!
 
-    private Coroutine wrongCoroutine;
+    public AudioClip winSound;
+    public AudioClip wrongSound;
 
-    public void ShowWin()
+    public ChessTriggerZone triggerZone;
+
+    private AudioSource audioSource;
+    private bool hasWon = false;
+
+    private void Start()
     {
-        if (wrongCoroutine != null)
-            StopCoroutine(wrongCoroutine);
+        audioSource = GetComponent<AudioSource>();
 
-        HideAll();
-        if (winText != null) winText.SetActive(true);
-        if (initialText != null) initialText.SetActive(false);
+        if (finalMoveText3D != null)
+            finalMoveText3D.SetActive(false);
 
-        if (winParticles != null)
+        if (winText != null)
+            winText.SetActive(false);
+
+        if (wrongText != null)
+            wrongText.SetActive(false);
+    }
+
+    public void CheckMove(Transform piece)
+    {
+        if (hasWon) return;
+
+        bool isWinningMove =
+            piece.CompareTag("Queen") &&
+            Vector3.Distance(piece.position, winningAnchor.position) < 0.05f;
+
+        if (isWinningMove)
         {
-            winParticles.Play();
-            StartCoroutine(StopParticlesAfterDelay());
+            ShowWin();
         }
-
-        if (winSound != null)
+        else
         {
-            winSound.Play();
+            ShowWrong();
         }
     }
 
-    private IEnumerator StopParticlesAfterDelay()
+    public void ShowWin()
     {
-        yield return new WaitForSeconds(5f);
+        hasWon = true;
+
         if (winParticles != null)
-        {
-            winParticles.Stop();
-        }
+            winParticles.Play();
+
+        if (audioSource != null && winSound != null)
+            audioSource.PlayOneShot(winSound);
+
+        if (winText != null) winText.SetActive(true);
+        if (wrongText != null) wrongText.SetActive(false);
+        if (finalMoveText3D != null) finalMoveText3D.SetActive(false);
+        if (initialText != null) initialText.SetActive(false);
     }
 
     public void ShowWrong()
     {
-        if (wrongCoroutine != null)
-            StopCoroutine(wrongCoroutine);
+        if (hasWon) return; // Don't show wrong text if game is won
 
-        HideAll();
-        if (wrongText != null) wrongText.SetActive(true);
-        if (initialText != null) initialText.SetActive(false);
+        if (audioSource != null && wrongSound != null)
+            audioSource.PlayOneShot(wrongSound);
 
-        if (wrongSound != null)
+        if (finalMoveText3D != null)
+            finalMoveText3D.SetActive(false);
+
+        if (wrongText != null)
+            wrongText.SetActive(true);
+
+        Invoke(nameof(HideWrong), 2f);
+    }
+
+    private void HideWrong()
+    {
+        if (hasWon) return;
+
+        if (wrongText != null)
+            wrongText.SetActive(false);
+
+        if (triggerZone != null && triggerZone.IsPlayerInside())
         {
-            wrongSound.Play(); // ✅ Play wrong sound here
+            if (finalMoveText3D != null)
+                finalMoveText3D.SetActive(true);
         }
-
-        wrongCoroutine = StartCoroutine(HideWrongAfterDelay());
     }
 
-    private IEnumerator HideWrongAfterDelay()
+    public bool HasPlayerWon()
     {
-        yield return new WaitForSeconds(5f);
-        if (wrongText != null) wrongText.SetActive(false);
-        if (initialText != null) initialText.SetActive(true);
-    }
-
-    public void HideAll()
-    {
-        if (winText != null) winText.SetActive(false);
-        if (wrongText != null) wrongText.SetActive(false);
-        if (initialText != null) initialText.SetActive(false);
+        return hasWon;
     }
 }

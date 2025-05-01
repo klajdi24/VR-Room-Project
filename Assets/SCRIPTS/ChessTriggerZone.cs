@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class ChessTriggerZone : MonoBehaviour
 {
-    public GameObject promptText;       // "INTERACT WITH ME"
-    public GameObject finalMoveText3D;  // "MAKE THE FINAL MOVE"
+    public GameObject promptText;       
+    public GameObject finalMoveText3D;  
     public AudioClip enterSound;
 
     private AudioSource audioSource;
@@ -26,7 +26,7 @@ public class ChessTriggerZone : MonoBehaviour
         {
             playerInside = true;
 
-            // 🛑 Don't show anything if player already won
+            
             if (FindObjectOfType<MoveTracker>().HasPlayerWon())
                 return;
 
@@ -47,7 +47,7 @@ public class ChessTriggerZone : MonoBehaviour
         {
             playerInside = false;
 
-            // 🛑 Don't show anything if player already won
+            
             if (FindObjectOfType<MoveTracker>().HasPlayerWon())
                 return;
 

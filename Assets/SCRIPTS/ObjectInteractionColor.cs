@@ -15,7 +15,7 @@ public class ObjectInteractionColor : MonoBehaviour
     private bool isToggled = false;
     private XRGrabInteractable interactable;
 
-    public AudioSource ufoAudioSource; // 🔊 UFO sound source
+    public AudioSource ufoAudioSource; 
 
     void Awake()
     {

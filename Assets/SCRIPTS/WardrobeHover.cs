@@ -12,7 +12,7 @@ public class WardrobeHover : MonoBehaviour
         rend = GetComponent<Renderer>();
         if (rend != null)
         {
-            // Store the original color of the wardrobe material
+            
             originalColor = rend.material.GetColor("_BaseColor");
         }
     }

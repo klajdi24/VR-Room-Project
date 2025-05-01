@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 public class ChessSnapper : MonoBehaviour
 {
-    public List<Transform> legalSquares; // Assign in Inspector or dynamically
-    public float snapThreshold = 0.2f; // How close to a square before snapping
+    public List<Transform> legalSquares; 
+    public float snapThreshold = 0.2f; 
 
     private Rigidbody rb;
 
@@ -15,7 +15,7 @@ public class ChessSnapper : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        // Delay a bit to let it settle
+        
         Invoke("TrySnapToSquare", 0.1f);
     }
 

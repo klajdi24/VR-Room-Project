@@ -4,8 +4,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 [RequireComponent(typeof(XRSimpleInteractable))]
 public class ChairInteraction : MonoBehaviour
 {
-    public Transform seatPosition; // Empty GameObject where player should sit
-    public Color hoverColor = new Color(0.5f, 0.8f, 1f); // Light blue on hover
+    public Transform seatPosition; 
+    public Color hoverColor = new Color(0.5f, 0.8f, 1f); 
     private Color originalColor;
     private Renderer rend;
 
@@ -42,9 +42,9 @@ public class ChairInteraction : MonoBehaviour
         player.transform.position = seatPosition.position;
         player.transform.rotation = seatPosition.rotation;
 
-        Debug.Log("✅ Player rig teleported exactly to seat position (no head offset correction)!");
+        Debug.Log(" Player rig teleported exactly to seat position (no head offset correction)!");
         
-        // Start Typing Effect
+        
         TypingEffect typer = FindObjectOfType<TypingEffect>();
         if (typer != null)
         {

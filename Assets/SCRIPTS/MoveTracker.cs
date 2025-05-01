@@ -7,8 +7,8 @@ public class MoveTracker : MonoBehaviour
 
     public GameObject winText;
     public GameObject wrongText;
-    public GameObject initialText;       // INTERACT WITH ME
-    public GameObject finalMoveText3D;   // MAKE THE FINAL MOVE
+    public GameObject initialText;       
+    public GameObject finalMoveText3D;   
 
     public ParticleSystem winParticles;
 
@@ -70,7 +70,7 @@ public class MoveTracker : MonoBehaviour
 
     public void ShowWrong()
     {
-        if (hasWon) return; // Don't show wrong text if game is won
+        if (hasWon) return; 
 
         if (audioSource != null && wrongSound != null)
             audioSource.PlayOneShot(wrongSound);

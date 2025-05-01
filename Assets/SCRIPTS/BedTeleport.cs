@@ -4,7 +4,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 [RequireComponent(typeof(XRSimpleInteractable))]
 public class BedTeleport : MonoBehaviour
 {
-    public Transform bedPosition; // The transform to teleport the player to
+    public Transform bedPosition; 
     public Color hoverColor = new Color(0.5f, 0.8f, 1f);
     private Color originalColor;
     private Renderer rend;

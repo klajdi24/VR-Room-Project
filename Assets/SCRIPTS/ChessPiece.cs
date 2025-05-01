@@ -10,7 +10,7 @@ public class ChessPiece : MonoBehaviour
 {
     public PieceType pieceType;
     public bool isWhite;
-    public Transform snapAnchor; // Assign inside the Queen!
+    public Transform snapAnchor; 
 
     private XRGrabInteractable grab;
     private Rigidbody rb;
@@ -38,14 +38,14 @@ public class ChessPiece : MonoBehaviour
         {
             Debug.Log("👑 Queen entered winning square!");
 
-            // Destroy black pawn
+            
             GameObject blackPawn = GameObject.FindGameObjectWithTag("BlackPawn");
             if (blackPawn != null)
             {
                 Destroy(blackPawn);
             }
 
-            // Detach queen from hand if being held
+            
             if (grab.isSelected)
             {
                 grab.interactionManager.SelectExit(grab.interactorsSelecting[0], grab);
@@ -62,19 +62,19 @@ public class ChessPiece : MonoBehaviour
             }
             else
             {
-                Debug.LogError("❌ MoveTracker or WinningAnchor missing!");
+                Debug.LogError(" MoveTracker or WinningAnchor missing!");
             }
 
-            // Freeze queen in place
+            
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
             rb.isKinematic = true;
             rb.constraints = RigidbodyConstraints.FreezeAll;
 
-            // Disable grabbing
+            
             grab.enabled = false;
 
-            // Destroy ChessSnapper if it exists
+            
             ChessSnapper snapper = GetComponent<ChessSnapper>();
             if (snapper != null)
             {
@@ -82,7 +82,7 @@ public class ChessPiece : MonoBehaviour
             }
 
             hasWon = true;
-            Debug.Log("✅ Win condition met — snapped queen perfectly!");
+            Debug.Log("Win condition met — snapped queen perfectly!");
         }
     }
 
@@ -90,7 +90,7 @@ public class ChessPiece : MonoBehaviour
     {
         if (hasWon)
         {
-            Debug.Log("✅ Released after win — no reset needed.");
+            Debug.Log(" Released after win — no reset needed.");
             return;
         }
 
@@ -109,7 +109,7 @@ public class ChessPiece : MonoBehaviour
 
         if (hasWon)
         {
-            Debug.Log("✅ Already won — skip reset.");
+            Debug.Log(" Already won — skip reset.");
             yield break;
         }
 

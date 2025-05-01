@@ -9,12 +9,12 @@ public class TypeEffect : MonoBehaviour
     [TextArea] public string fullText;
     public float typingSpeed = 0.05f;
 
-    public AudioClip typingSound; // 🎵 Typing sound
+    public AudioClip typingSound; 
     private AudioSource audioSource;
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>(); // 🎧 Get AudioSource
+        audioSource = GetComponent<AudioSource>(); 
 
         if (tmpText != null)
             StartCoroutine(TypeText(tmpText));
@@ -30,7 +30,7 @@ public class TypeEffect : MonoBehaviour
             textComponent.text += letter;
 
             if (typingSound && audioSource)
-                audioSource.PlayOneShot(typingSound); // 🔊 Play sound per letter
+                audioSource.PlayOneShot(typingSound); 
 
             yield return new WaitForSeconds(typingSpeed);
         }

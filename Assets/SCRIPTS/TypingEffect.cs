@@ -8,13 +8,13 @@ public class TypingEffect : MonoBehaviour
     public string fullText = "Welcome to your computer!";
     public float typingSpeed = 0.05f;
 
-    public AudioClip typingSound;      // 🎵 Sound clip
-    private AudioSource audioSource;   // 🎧 Internal reference
+    public AudioClip typingSound;      
+    private AudioSource audioSource;   
 
     private void Start()
     {
         textComponent.text = "";
-        audioSource = GetComponent<AudioSource>(); // Assign the AudioSource
+        audioSource = GetComponent<AudioSource>(); 
     }
 
     public void StartTyping()
@@ -36,7 +36,7 @@ public class TypingEffect : MonoBehaviour
         {
             textComponent.text += c;
 
-            // 🔊 Play typing sound
+            
             if (typingSound && audioSource)
                 audioSource.PlayOneShot(typingSound);
 

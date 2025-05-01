@@ -1,27 +1,33 @@
 using UnityEngine;
-using UnityEngine.UI; // Make sure you have this for UI elements (Text, Buttons, etc.)
+using UnityEngine.UI; // For Button support
 using TMPro; // For TextMeshPro
 
 public class ChessGameManager : MonoBehaviour
 {
-    public Canvas messageCanvas; // Reference to the Canvas (UI element that holds the message)
-    public TextMeshProUGUI messageText; // Reference to the TextMeshProUGUI text for the message
-    public Button tryAgainButton; // Reference to the Try Again Button
-    public Button exitButton; // Reference to the Exit Button
+    public Canvas messageCanvas; // Reference to the UI Canvas
+    public TextMeshProUGUI messageText; // Message text
+    public Button tryAgainButton; // Try Again button
+    public Button exitButton; // Exit button
 
     // Show a message and optionally display buttons
     public void ShowMessage(string message, bool showButtons = false)
     {
-        messageCanvas.gameObject.SetActive(true); // Show the Canvas
-        messageText.text = message; // Update the message text
+        if (messageCanvas == null || messageText == null || tryAgainButton == null || exitButton == null)
+        {
+            Debug.LogError("ChessGameManager: Missing UI references.");
+            return;
+        }
 
-        tryAgainButton.gameObject.SetActive(showButtons); // Show/hide the Try Again button
-        exitButton.gameObject.SetActive(showButtons); // Show/hide the Exit button
+        messageCanvas.gameObject.SetActive(true); // Show canvas
+        messageText.text = message; // Set text
+        tryAgainButton.gameObject.SetActive(showButtons); // Toggle buttons
+        exitButton.gameObject.SetActive(showButtons);
     }
 
-    // Hide the message and buttons
+    // Hide everything
     public void HideMessage()
     {
-        messageCanvas.gameObject.SetActive(false); // Hide the entire UI
+        if (messageCanvas != null)
+            messageCanvas.gameObject.SetActive(false);
     }
 }

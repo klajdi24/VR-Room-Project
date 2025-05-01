@@ -3,25 +3,35 @@ using UnityEngine;
 public class ChessTriggerZone : MonoBehaviour
 {
     public ChessGameManager gameManager; // Reference to the ChessGameManager
-    public string finalMoveMessage = "Make the final move to win!"; // Message shown when close to the chessboard
+    public string finalMoveMessage = "Make the final move to win!";
+    
+    public AudioClip enterSound; // 🎵 Entry sound
+    private AudioSource audioSource;
 
-    // This method is called when the player enters the trigger zone
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) // Check if the object is tagged as "Player"
+        if (other.CompareTag("Player"))
         {
             Debug.Log("Player entered the trigger zone!");
-            gameManager.ShowMessage(finalMoveMessage, true); // Show the message with options
+            gameManager.ShowMessage(finalMoveMessage, true);
+
+            if (enterSound && audioSource)
+                audioSource.PlayOneShot(enterSound); // 🔊 Play sound on entry
         }
     }
 
-    // This method is called when the player exits the trigger zone
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player")) // Check if the object is tagged as "Player"
+        if (other.CompareTag("Player"))
         {
             Debug.Log("Player exited the trigger zone!");
-            gameManager.HideMessage(); // Hide the message when the player leaves the zone
+            gameManager.HideMessage();
+            // ❌ No sound here
         }
     }
 }
